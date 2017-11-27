@@ -1,0 +1,263 @@
+<html>
+	<head>
+		<meta charset = "utf-8"/>
+		<title>Jakub Ginter PDT</title>
+		<meta name = 'viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
+		<script src = 'https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.js'></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script> 
+		
+		<link href = 'https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.css' rel = 'stylesheet'/>
+		<link rel="stylesheet" href="menu.css">
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+		
+	</head>
+
+	<body>
+
+		<div id = 'map'>
+			<div class='navbar'>
+				 <div class="navbar-element">
+				  <a href = '#' id = 'all'>Všetky parky</a>
+				  <a href = '#' id = 'historic'>Historické pamiatky</a>
+				  <a href = '#' id = 'addmarker'>Pridanie/odobranie markeru</a>
+				  <a href = '#' id = 'path'>Chodníky v parkoch</a>
+				</div>
+
+				<div class="navbar-search">
+					<input type="checkbox" id='bench' />
+					<label for="cb1">Lavičky</label>
+					<input type="checkbox" id='fountain' />
+					<label for="cb2">Fontány</label>
+					<input type="checkbox" id='playground' />
+					<label for="cb3">Ihriská</label>
+					<button type="button" class="button button1" id = 'search'>Vyhľadávač</button>
+				</div>
+				<div id="slidecontainer"></div>
+			</div>
+
+			</div>
+
+		<script>
+
+			L.mapbox.accessToken = 'pk.eyJ1IjoiamtiZ250cjk0IiwiYSI6ImNqOGo2b3I4djE3YmMzM242MXp1MjhsYTEifQ.WiUWCPTiRrgSGVAi2rxfjQ';
+
+			var isDragging;
+			var isCursorOverPoint;
+			var markerFlag = 0;
+
+			var map = L.mapbox.map('map', 'mapbox.outdoors', {
+			    doubleClickZoom : false
+			}).setView([48.15, 17.11], 13);
+			
+			var myLayer = L.mapbox.featureLayer().addTo(map);
+			var myLayerTransport = L.mapbox.featureLayer().addTo(map);
+			
+			
+			
+			myLayer.on('layeradd', function(e) {
+			    var popupContent = "<b>Názov: " + e.layer.feature.properties.title + "</b><br/><b>Rozloha: " + e.layer.feature.properties.area + " m2</b><br/>"
+			    e.layer.bindPopup(popupContent,{
+			        closeButton: false,
+			        minWidth: 100
+			    });
+			});
+			
+
+			myLayer.on('dblclick', function(e) {
+			    var latitude = e.latlng.lat;
+			    var longitude = e.latlng.lng;
+
+
+
+
+				$( ".slider" ).change(function() {
+
+			 	 var limit = document.getElementById("myRange").value;
+			    jQuery.get("http://localhost:8080/transport/" + latitude + "/" + longitude + "/" + limit, function(response) { 
+					var geojson = response;
+					myLayer.setGeoJSON(geojson);
+				});
+
+			});
+
+				 var limit = document.getElementById("myRange").value;
+			    jQuery.get("http://localhost:8080/transport/" + latitude + "/" + longitude + "/" + limit, function(response) { 
+					var geojson = response;
+					myLayer.setGeoJSON(geojson);
+				});
+			    
+
+			    myLayer.on('layeradd', function(e) {
+			    var popupContent = "<b>Názov: " + e.layer.feature.properties.title + "</b><br/><b>Vzdialenost: " + e.layer.feature.properties.distance + " m</b><br/>"
+			    e.layer.bindPopup(popupContent,{
+			        closeButton: false,
+			        minWidth: 100
+			    });
+			});
+
+
+			  });
+
+			
+			jQuery.get("http://localhost:8080/all", function(response) { 
+				var geojson = response;
+				myLayer.setGeoJSON(geojson);
+			});
+			
+		
+			map.getContainer().querySelector('#all').onclick = function() {
+				myLayer.clearLayers();
+				jQuery.get("http://localhost:8080/all", function(response) { 
+					var geojson = response;
+					myLayer.setGeoJSON(geojson);
+				});
+
+				if(!$('#slidecontainer').html()){
+				$('#slidecontainer').append('<input type="range" min="1" max="100" value="5" class="slider" id="myRange"> <p style="color:white">Hodnota: <span style="color:white" id="demo"></span></p>');
+				var slider = document.getElementById("myRange");
+				var output = document.getElementById("demo");
+				output.innerHTML = slider.value;
+
+				slider.oninput = function() {
+				  output.innerHTML = this.value;
+				}
+
+				}
+				else $('#slidecontainer').empty();
+
+
+
+			};
+			
+
+			
+
+
+			map.getContainer().querySelector('#historic').onclick = function() {
+				myLayer.clearLayers();
+				jQuery.get("http://localhost:8080/historic", function(response) { 
+					var geojson = response;
+					myLayer.setGeoJSON(geojson);
+				});
+
+			myLayer.on('layeradd', function(e) {
+			    var popupContent = "<b>Názov - " + e.layer.feature.properties.title + "</b><br/><b>Pocet pamiatok- " + e.layer.feature.properties.count + "</b><br/>"
+			    e.layer.bindPopup(popupContent,{
+			        closeButton: false,
+			        minWidth: 100
+			    });
+			});
+
+
+			};
+								
+			map.getContainer().querySelector('#search').onclick = function() {
+				myLayer.clearLayers();
+				var cb1 = document.getElementById('bench').checked;
+				var cb2 = document.getElementById('fountain').checked;
+				var cb3 = document.getElementById('playground').checked;
+				
+				jQuery.get("http://localhost:8080/search/" + cb1 + "/" + cb2 + "/" + cb3, function(response) { 
+					var geojson = response;
+					myLayer.setGeoJSON(geojson);
+				});
+
+				myLayer.on('layeradd', function(e) {
+			    var popupContent = "<b>Názov: " + e.layer.feature.properties.title + "</b><br/><b>Rozloha: " + e.layer.feature.properties.area + " m2</b><br/>"
+			    e.layer.bindPopup(popupContent,{
+			        closeButton: false,
+			        minWidth: 100
+			    });
+			});
+
+
+
+			};
+			
+			map.getContainer().querySelector('#path').onclick = function() {
+				myLayer.clearLayers();
+				jQuery.get("http://localhost:8080/pathlength", function(response) { 
+					var geojson = response;
+					myLayer.setGeoJSON(geojson);
+				});
+
+				myLayer.on('layeradd', function(e) {
+			    var popupContent = "<b>Názov: " + e.layer.feature.properties.title + "</b><br/><b>Dĺžka chodníkov: " + e.layer.feature.properties.length + " m</b><br/>"
+			    e.layer.bindPopup(popupContent,{
+			        closeButton: false,
+			        minWidth: 100
+			    });
+			});
+
+
+			};
+			
+			
+					//------------------------------------------
+
+			var marker = L.marker(new L.LatLng(48.15, 17.11), {
+			    icon: L.mapbox.marker.icon({
+			        'marker-color': 'ff8888'
+			    }),
+			    draggable: true
+			});
+
+			document.getElementById("addmarker").onclick = function(){
+			
+			
+				if(!$('#slidecontainer').html()){
+				$('#slidecontainer').append('<input type="range" min="1" max="100" value="5" class="slider" id="myRange"> <p style="color:white">Hodnota: <span style="color:white" id="demo"></span></p>');
+				var slider = document.getElementById("myRange");
+				var output = document.getElementById("demo");
+				output.innerHTML = slider.value;
+
+				slider.oninput = function() {
+				  output.innerHTML = this.value;
+				}
+
+				}
+				else $('#slidecontainer').empty();
+
+
+
+			if(markerFlag == 0){
+				
+				marker.addTo(map);
+				
+				markerFlag = 1;
+			}
+			else {
+				
+				map.removeLayer(marker);
+				markerFlag = 0;
+			}
+			
+			};
+
+
+			
+			marker.on('click', function(e) {
+				var latLng = e.latlng;
+				var limit = document.getElementById("myRange").value;
+				
+				jQuery.get("http://localhost:8080/near/" + latLng.lat + "/" + latLng.lng + "/" + limit, function(response) { 
+					var geojson = response;
+					myLayer.setGeoJSON(geojson);
+				});
+
+				myLayer.on('layeradd', function(e) {
+			    var popupContent = "<b>Názov: " + e.layer.feature.properties.title + "</b><br/><b>Plocha parku: " + e.layer.feature.properties.area + " m2</b><br/><b>Vzdialenost: " + e.layer.feature.properties.distance + " m</b><br/>"
+			    e.layer.bindPopup(popupContent,{
+			        closeButton: false,
+			        minWidth: 100
+			    });
+			});
+
+
+
+			});
+
+		</script>
+	</body>
+</html>
