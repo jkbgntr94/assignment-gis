@@ -23,7 +23,7 @@ Fill in (either in English, or in Slovak):
 **Application description**: Aplikácia ponúka používateľovi možnosť zobraziť parky a oddychové oblasti v Bratislave a jej okolí. V rámci tohto zobrazenia poskytuje niekoľko scenárov.
 
 - Defaultné zobrazenie všetkých parkov.
-![all](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/blob/master/All.jpg)
+![all](https://github.com/fiit-pdt/assignment-gis/blob/master/All.jpg)
 
 - Zobrarazenie zadaného počtu bodov záujmu v okolí zvoleného parku.
 ![around](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/Around.jpg)
