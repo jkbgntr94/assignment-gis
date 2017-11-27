@@ -17,7 +17,7 @@ public class Connector {
 		
 		private void createConnection() throws SQLException, ClassNotFoundException {
 			Class.forName("org.postgresql.Driver"); 
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/parks", "postgres", "Jakub1944");
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/parks", "postgres", "heslo");
 			statement = connection.createStatement();
 		}
 		
