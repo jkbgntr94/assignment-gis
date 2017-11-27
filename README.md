@@ -23,19 +23,19 @@ Fill in (either in English, or in Slovak):
 **Application description**: Aplikácia ponúka používateľovi možnosť zobraziť parky a oddychové oblasti v Bratislave a jej okolí. V rámci tohto zobrazenia poskytuje niekoľko scenárov.
 
 - Defaultné zobrazenie všetkých parkov.
-![all](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/All.jpg)
+![all](assignment-gis/All.jpg)
 
 - Zobrarazenie zadaného počtu bodov záujmu v okolí zvoleného parku.
-![all](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/Around.jpg)
+![around](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/Around.jpg)
 
 - Zobrazenie historických pamiatok v parkoch. Tie sú odlíšené podľa počtu pamiatok v parku intenzitou vnútornej farby.
-![all](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/Inside.jpg)
+![inside](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/Inside.jpg)
 
 - Vyhľadanie zadaného počtu parkov, ktoré obsahujú fontány/ihriská/lavičky(checkbox). Vyhľadáva sa v okolí pridaného Marku.
-![all](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/Search.jpg)
+![search](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/Search.jpg)
 
 - Zobrazenie chodníkov spolu s ich dĺžkou.
-![all](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/path.jpg)
+![path](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/path.jpg)
 
 Aplikácia sa ovláda pomocou klikania na zvolené tlačidlá, prípadne na park alebo značku. Početnosť sa nastavuje pomocou slideru. Vyhľadávač sa nastavuje pomocou checkboxov.
 
