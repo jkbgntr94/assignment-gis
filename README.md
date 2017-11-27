@@ -26,16 +26,16 @@ Fill in (either in English, or in Slovak):
 ![all](https://github.com/jkbgntr94/assignment-gis/blob/master/All.jpg)
 
 - Zobrarazenie zadaného počtu bodov záujmu v okolí zvoleného parku.
-![around](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/Around.jpg)
+![around](https://github.com/jkbgntr94/assignment-gis/blob/master/Around.jpg)
 
 - Zobrazenie historických pamiatok v parkoch. Tie sú odlíšené podľa počtu pamiatok v parku intenzitou vnútornej farby.
-![inside](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/Inside.jpg)
+![inside](https://github.com/jkbgntr94/assignment-gis/blob/master/Inside.jpg)
 
 - Vyhľadanie zadaného počtu parkov, ktoré obsahujú fontány/ihriská/lavičky(checkbox). Vyhľadáva sa v okolí pridaného Marku.
-![search](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/Search.jpg)
+![search](https://github.com/jkbgntr94/assignment-gis/blob/master/Search.jpg)
 
 - Zobrazenie chodníkov spolu s ich dĺžkou.
-![path](https://github.com/fiit-pdt/jkbgntr94/assignment-gis/path.jpg)
+![path](https://github.com/jkbgntr94/assignment-gis/blob/master/path.jpg)
 
 Aplikácia sa ovláda pomocou klikania na zvolené tlačidlá, prípadne na park alebo značku. Početnosť sa nastavuje pomocou slideru. Vyhľadávač sa nastavuje pomocou checkboxov.
 
